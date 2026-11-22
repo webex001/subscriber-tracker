@@ -3,10 +3,10 @@ import { signUp, signIn, signOut } from "../controllers/auth.controller.js";
 
 const authRouter = Router();
 
-authRouter.post("/register", signUp);
+authRouter.post("/sign-up", signUp);
 
-authRouter.post("/login", signIn);
+authRouter.post("/sign-in", signIn);
 
-authRouter.post("/logout", signOut);
+authRouter.post("/log-out", signOut);
 
 export default authRouter;
