@@ -32,7 +32,7 @@ const subscriptionSchema = new mongoose.Schema(
       enum: ["credit_card", "debit_card", "paypal", "bank_transfer", "crypto"],
       required: [true, "Please provide a payment method"],
     },
-    staus: {
+    status: {
       type: String,
       enum: ["active", "inactive", "cancelled"],
       default: "active",
