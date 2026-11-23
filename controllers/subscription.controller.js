@@ -1,3 +1,5 @@
+import { workflowClient } from "../config/upstash.js";
+import { SERVER_URL } from "../config/env.js";
 import Subscription from "../model/subscription.model.js";
 
 export const createSubscription = async (req, res) => {
@@ -8,12 +10,22 @@ export const createSubscription = async (req, res) => {
       user: req.user._id, // Assuming the user is authenticated and available in req.user
     });
 
+    const { workflowRunId } = await workflowClient.trigger({
+      url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+      body: {
+        subscriptionId: subscription.id,
+      },
+      headers: {
+        "content-type": "application/json",
+      },
+      retries: 0,
+    });
+
     res.status(201).json({
       success: true,
       message: "Subscription created successfully",
-      data: subscription,
+      data: { subscription, workflowRunId },
     });
-    // next();
   } catch (error) {
     console.error("Error creating subscription:", error);
     res.status(500).json({
